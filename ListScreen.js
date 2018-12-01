@@ -10,7 +10,8 @@ export default class ListScreen extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {list: [] };
+        const { params } = this.props.navigation.state;
+        this.state = {list: [],  token: params.token  };
     }
 
     componentDidMount() {
@@ -27,12 +28,14 @@ export default class ListScreen extends React.Component {
             headers: {
                  Accept: 'application/json',
                 'Content-Type' : 'application/json',
+                'Authorization' : this.state.token
             },
         }).then(response => 'done');
         this.getRestaurants();
     }
 
     deleteConfirmation = (link) => {
+        if(this.state.token != '') {
         Alert.alert(
             'Confirmation',
             'Do you want to delete this restaurant ?',
@@ -41,6 +44,7 @@ export default class ListScreen extends React.Component {
               {text: 'OK', onPress: () => this.deleteItem(link)},
             ]
           )
+        }
     }
 
     getRestaurants = async () => {
@@ -61,6 +65,9 @@ export default class ListScreen extends React.Component {
     render() {
 
 
+        
+
+
         if(this.state.list === [])
         {
             return (
@@ -70,15 +77,21 @@ export default class ListScreen extends React.Component {
             )
         }
 
-
-
         const { navigate } = this.props.navigation;
+        var {addButtonRender} = <View></View>; 
+        if(this.state.token != '')
+        {
+            addButtonRender =
+            <View style={styles.btn}>
+                <Button title='Add' onPress={() => navigate('AddRestaurant', { token: this.state.token })}/>
+            </View>;
+        }
+        else{}
+        
 
         return (
             <View style={styles.container}>
-                <View style={styles.btn}>
-                    <Button title='Add' onPress={() => navigate('AddRestaurant')}/>
-                </View>
+                <View>{addButtonRender}</View>
                 <ScrollView>
                     <List containerStyle={{ marginBottom: 20 }}>
                         {
@@ -103,7 +116,7 @@ export default class ListScreen extends React.Component {
                                     }
                                     onPress={() => navigate('SushiDetails', { name: l.name, overallRating: l.overallRating, description: l.description, selection: l.selection, 
                                         quality: l.quality, price: l.price, extraFeatures: l.extraFeatures, 
-                                        latitude: l.latitude, longitude: l.longitude, self: l._links.self.href, city: l._links.city.href })}
+                                        latitude: l.latitude, longitude: l.longitude, self: l._links.self.href, city: l._links.city.href, token: this.state.token })}
 
                                     
                                     onLongPress={() => this.deleteConfirmation(l._links.self.href)}

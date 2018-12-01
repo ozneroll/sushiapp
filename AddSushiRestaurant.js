@@ -50,7 +50,7 @@ export default class AddScreen extends React.Component {
             name: '', description: '', selection: '', 
             quality: '', price: '', extraFeatures: '',
             latitude: '', longitude: '', overallRating: '', 
-            city: 'https://radiant-bastion-60132.herokuapp.com/api/cities/1', cityList: []
+            city: 'https://radiant-bastion-60132.herokuapp.com/api/cities/1', cityList: [], token: params.token
         };   
     }
     
@@ -62,6 +62,7 @@ export default class AddScreen extends React.Component {
             headers: {
                  Accept: 'application/json',
                 'Content-Type' : 'application/json',
+                'Authorization' : this.state.token
             },
             body: JSON.stringify({
                 name: this.state.name,

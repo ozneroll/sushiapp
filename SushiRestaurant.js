@@ -17,7 +17,7 @@ export default class MapScreen extends React.Component {
             name: params.name, description: params.description, selection: params.selection, 
             quality: params.quality, price: params.price, extraFeatures: params.extraFeatures,
             latitude: params.latitude, longitude: params.longitude, overallRating: params.overallRating, 
-            self: params.self, city: params.city, cityString: ''
+            self: params.self, city: params.city, cityString: '', token: params.token
         };
 
         
@@ -45,7 +45,7 @@ export default class MapScreen extends React.Component {
         </View>
         ),
 
-        headerRight: (
+        headerRight: (navigation.state.params.token != '')? (
 
             <View style={{marginRight: 10}}>
                 
@@ -53,13 +53,13 @@ export default class MapScreen extends React.Component {
                 name={'table-edit'}
                 onPress={ () => navigation.navigate('EditRestaurant', { name: navigation.state.params.name, overallRating: navigation.state.params.overallRating, description: navigation.state.params.description, selection: navigation.state.params.selection, 
                     quality: navigation.state.params.quality, price: navigation.state.params.price, extraFeatures: navigation.state.params.extraFeatures, 
-                    latitude: navigation.state.params.latitude, longitude: navigation.state.params.longitude, self: navigation.state.params.self, city: navigation.state.params.city  })
+                    latitude: navigation.state.params.latitude, longitude: navigation.state.params.longitude, self: navigation.state.params.self, city: navigation.state.params.city, token: navigation.state.params.token })
                 }
                 size={26}
                 />
                 
             </View>
-        )
+        ):(<View></View>)
             
         });
 

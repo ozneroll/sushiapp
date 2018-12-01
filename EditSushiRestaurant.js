@@ -64,7 +64,7 @@ export default class EditScreen extends React.Component {
             name: params.name, description: params.description, selection: params.selection, 
             quality: params.quality, price: params.price, extraFeatures: params.extraFeatures,
             latitude: params.latitude, longitude: params.longitude, overallRating: params.overallRating, 
-            self: params.self, city: params.city, cityList: []
+            self: params.self, city: params.city, cityList: [], token: params.token
         };   
     }
     
@@ -75,6 +75,7 @@ export default class EditScreen extends React.Component {
             headers: {
                  Accept: 'application/json',
                 'Content-Type' : 'application/json',
+                'Authorization' : this.state.token
             },
             body: JSON.stringify({
                 name: this.state.name,
@@ -123,7 +124,7 @@ export default class EditScreen extends React.Component {
                     <FormLabel>City</FormLabel>
                     <View style={{ height: 50, width: 200, marginLeft: 13 }}>
                     <Picker
-                    style={{ height: 50, width: 100 }}
+                    
                     selectedValue={this.state.city}
                     onValueChange={(itemValue) => this.setState({
                         city: itemValue
